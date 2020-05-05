@@ -29,7 +29,6 @@ const _ = require("iotdb-helpers")
 const publish_sms = _.promise((self, done) => {
     _.promise.validate(self, publish_sms)
 
-console.log("A")
     self.twilio.messages
         .create({
             body: self.document,
@@ -37,12 +36,10 @@ console.log("A")
             from: self.from_phone,
         })
         .then(result => {
-console.log("B")
             self.twilio$result = result
             done(null, self)
         })
         .catch(error => {
-console.log("C")
             error.self = self
             done(error, null)
         })
@@ -51,7 +48,7 @@ console.log("C")
 publish_sms.method = "messages.publish_sms"
 publish_sms.description = ``
 publish_sms.requires = {
-    twilio: _.is.Dictionary,
+    twilio: _.is.Object,
     document: _.is.String,
     to_phone: _.is.String,
 }
