@@ -34,8 +34,9 @@ _.promise({
     document: `hello ${_.timestamp.make()}`,
 })
     .then(twilio.initialize)
-    .then(twilio.messages.publish_sms)
+    .then(twilio.publish_sms)
     .make(sd => {
+        console.log(sd.twilio.messages.create)
         console.log("+", sd.twilio$result)
     })
     .catch(_.error.log)

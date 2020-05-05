@@ -23,4 +23,3 @@
 "use strict"
 
 module.exports = require("./lib")
-module.exports.messages = require("./messages")
