@@ -37,7 +37,9 @@ echo "=================="
         README.md LICENSE \
         package.json \
         index.js \
+        logger.js \
         lib/*.js \
+        messages/*.js \
         |
     ( cd "${NPM_DST}" && tar xvf - && npm publish ) || exit 1
     git commit -m "new release" package.json || exit 1

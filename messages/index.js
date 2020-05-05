@@ -1,5 +1,5 @@
 /*
- *  index.js
+ *  messages/index.js
  *
  *  David Janes
  *  IOTDB.org
@@ -22,5 +22,8 @@
 
 "use strict"
 
-module.exports = require("./lib")
-module.exports.messages = require("./messages")
+module.exports = Object.assign(
+    {},
+    require("./publish_sms"),
+    {}
+)

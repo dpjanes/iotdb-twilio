@@ -1,5 +1,5 @@
 /*
- *  lib/load.js
+ *  samples/publish_sms.js
  *
  *  David Janes
  *  IOTDB.org
@@ -23,29 +23,19 @@
 "use strict"
 
 const _ = require("iotdb-helpers")
+const twilio = require("..")
 
-/**
- */
-const load = _.promise((self, done) => {
-    _.promise(self)
-        .validate(load)
-        .end(done, self, load)
+const cfg = require("../.cfg.json")
+
+_.promise({
+    twilio$cfg: cfg,
+    from_phone: cfg.from_phone,
+    to_phone: cfg.to_phone,
+    document: `hello ${_.timestamp.make()}`,
 })
-
-load.method = "load"
-load.description = ``
-load.requires = {
-    twilio: _.is.Dictionary,
-}
-load.accepts = {
-}
-load.produces = {
-}
-load.params = {
-}
-load.p = _.p(load)
-
-/**
- *  API
- */
-exports.load = load
+    .then(twilio.initialize)
+    .then(twilio.messages.publish_sms)
+    .make(sd => {
+        console.log("+", sd.twilio$result)
+    })
+    .catch(_.error.log)
