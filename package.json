@@ -1,0 +1,25 @@
+{
+    "author": "David P. Janes <davidjanes@davidjanes.com>", 
+    "bugs": {
+        "url": "https://github.com/dpjanes/iotdb-twilio/issues"
+    }, 
+    "dependencies": {
+        "iotdb-helpers": "~3.4.14", 
+        "twilio": "~3.43.0"
+    }, 
+    "description": "POP Interface for Twilio", 
+    "homepage": "https://github.com/dpjanes/node-iotdb", 
+    "license": "Apache-2.0", 
+    "main": "index.js", 
+    "name": "iotdb-twilio", 
+    "private": false, 
+    "repository": {
+        "type": "git", 
+        "url": "https://github.com/dpjanes/iotdb-twilio"
+    }, 
+    "scripts": {
+        "cover": "nyc --reporter=html mocha --recursive", 
+        "test": "mocha --recursive --bail"
+    }, 
+    "version": "1.0.0"
+}
