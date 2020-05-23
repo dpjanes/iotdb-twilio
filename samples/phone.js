@@ -45,7 +45,7 @@ const action = name => {
     return action_name === name
 }
 
-if (action("available_phone_numbers")) {
+if (action("phone.available")) {
     _.promise({
         twilio$cfg: cfg,
         query: {
@@ -53,7 +53,7 @@ if (action("available_phone_numbers")) {
         },
     })
         .then(twilio.initialize)
-        .then(twilio.available_phone_numbers)
+        .then(twilio.phone.available)
         .make(sd => {
             console.log("+", JSON.stringify(sd.phones, null, 2))
         })
@@ -61,6 +61,7 @@ if (action("available_phone_numbers")) {
 } else if (action("phone.claim")) {
     if (!ad._.length) {
         console.log("argument required")
+        process.exit(1)
     }
 
     _.promise({
@@ -68,8 +69,52 @@ if (action("available_phone_numbers")) {
         phone_number: ad._.shift()
     })
         .then(twilio.initialize)
-        .then(twilio.claim)
+        .then(twilio.phone.claim)
         .make(sd => {
+            console.log("+", sd.phone)
+        })
+        .catch(_.error.log)
+} else if (action("phone.list")) {
+    _.promise({
+        twilio$cfg: cfg,
+    })
+        .then(twilio.initialize)
+        .then(twilio.phone.list)
+        .make(sd => {
+            console.log("+", sd.phones)
+        })
+        .catch(_.error.log)
+} else if (action("phone.patch")) {
+    if (!ad._.length) {
+        console.log("argument required")
+        process.exit(1)
+    }
+
+// +12268948315
+// PN66e7b57843bc895052affb58fd39a0e9
+    _.promise({
+        twilio$cfg: cfg,
+        query: {
+            phone_number: ad._.shift()
+        },
+
+    })
+        .then(twilio.initialize)
+        .then(twilio.phone.list)
+        .make(sd => {
+            if (!sd.phones.length) {
+                console.log("#", "phone not found")
+                process.exit(1)
+            }
+
+            sd.phone = {
+                sid: sd.phones[0].sid,
+                friendlyName: `name ${_.timestamp.make()}`,
+            }
+        })
+        .then(twilio.phone.patch)
+        .make(sd => {
+            console.log("+", sd.phone)
         })
         .catch(_.error.log)
 } else if (!action_name) {
